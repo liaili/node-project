@@ -32,24 +32,41 @@
     
 // })
 
-function interview() {
+function interview(round) {
   return new Promise((resolve, reject) => {
-    if (Math.random() > 0.8) {
+    if (Math.random() > 0.2) {
       resolve('success');
     } else {
-      reject(new Error('fail'));
+      var error = new Error('fail');
+      error.round = round;
+      reject(error);
     }
   })
 }
 
-(function() {
-  var promise = interview();
-  promise
-    .then((res) => {
-      console.log(res)
-    })
-    .then((err) => {
-      console.log(err);
-    })
-})()
+var promise = interview(1)
+  .then(() => {
+    return interview(2);
+  })
+  .then(() => {
+    return interview(3)
+  })
+  .then(() => {
+    console.log('smile');
+  })
+  .catch(error => {
+    console.log('cry at ' + error.round + ' round');
+  })
+
+
+// (function() {
+//   var promise = interview();
+//   promise
+//     .then((res) => {
+//       console.log(res)
+//     })
+//     .then((err) => {
+//       console.log(err);
+//     })
+// })()
 
