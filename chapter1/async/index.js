@@ -10,17 +10,16 @@
 // }
 
 interview((res) => {
-  if (res instanceof Error) {
-    console.log('cry')
-  } else {
-    console.log('smile');
+  if (res) {
+    return console.log('cry')
   }
+    console.log('smile');
 })
 
 function interview(callback) {
   setTimeout(() => {
     if (Math.random() > 0.8) {
-      callback('success');
+      callback(null, 'success');
     } else {
       callback(new Error('fail'));
     }
