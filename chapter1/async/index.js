@@ -32,28 +32,40 @@
     
 // })
 
-function interview(name) {
+function interview(round) {
   return new Promise((resolve, reject) => {
     if (Math.random() > 0.2) {
       resolve('success');
     } else {
       var error = new Error('fail');
-      error.name = name;
+      error.round = round;
       reject(error);
     }
   })
 }
 
-Promise.all([
-  interview('tencent'),
-  interview('geektime')
-])
-.then(() => {
-  console.log('smile');
-})
-.catch((err) => {
-  console.log('cry for ' + err.name);
-})
+(async function() {
+  try {
+    await interview(1);
+    await interview(2);
+    await interview(3);
+  } catch (error) {
+    return console.log('cry at ' + error.round + ' round');
+  }
+
+  console.log('smile')
+})()
+
+// Promise.all([
+//   interview('tencent'),
+//   interview('geektime')
+// ])
+// .then(() => {
+//   console.log('smile');
+// })
+// .catch((err) => {
+//   console.log('cry for ' + err.name);
+// })
 
 // var promise = interview(1)
 //   .then(() => {
