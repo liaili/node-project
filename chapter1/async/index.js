@@ -9,35 +9,47 @@
 //   console.log('cry', error)
 // }
 
-interview((res) => {
-  if (res) {
-    return console.log('cry at 1st round')
-  }
+// interview((res) => {
+//   if (res) {
+//     return console.log('cry at 1st round')
+//   }
 
-  interview((res) => {
-    if (res) {
-      return console.log('cry at 2nd round')
-    }
+//   interview((res) => {
+//     if (res) {
+//       return console.log('cry at 2nd round')
+//     }
 
-    interview((res) => {
-      if (res) {
-        return console.log('cry at 3rd round')
-      }
+//     interview((res) => {
+//       if (res) {
+//         return console.log('cry at 3rd round')
+//       }
 
-      console.log('smile');
+//       console.log('smile');
 
-    })
+//     })
 
-  })
+//   })
     
-})
+// })
 
-function interview(callback) {
-  setTimeout(() => {
+function interview() {
+  return new Promise((resolve, reject) => {
     if (Math.random() > 0.8) {
-      callback(null, 'success');
+      resolve('success');
     } else {
-      callback(new Error('fail'));
+      reject(new Error('fail'));
     }
-  }, 500);
+  })
 }
+
+(function() {
+  var promise = interview();
+  promise
+    .then((res) => {
+      console.log(res)
+    })
+    .then((err) => {
+      console.log(err);
+    })
+})()
+
