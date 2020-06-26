@@ -11,9 +11,25 @@
 
 interview((res) => {
   if (res) {
-    return console.log('cry')
+    return console.log('cry at 1st round')
   }
-    console.log('smile');
+
+  interview((res) => {
+    if (res) {
+      return console.log('cry at 2nd round')
+    }
+
+    interview((res) => {
+      if (res) {
+        return console.log('cry at 3rd round')
+      }
+
+      console.log('smile');
+
+    })
+
+  })
+    
 })
 
 function interview(callback) {
