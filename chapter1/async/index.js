@@ -46,9 +46,7 @@ function interview(round) {
 
 (async function() {
   try {
-    await interview(1);
-    await interview(2);
-    await interview(3);
+    await Promise.all([interview(1), interview(2), interview(3)])
   } catch (error) {
     return console.log('cry at ' + error.round + ' round');
   }
