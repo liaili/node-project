@@ -32,31 +32,42 @@
     
 // })
 
-function interview(round) {
+function interview(name) {
   return new Promise((resolve, reject) => {
     if (Math.random() > 0.2) {
       resolve('success');
     } else {
       var error = new Error('fail');
-      error.round = round;
+      error.name = name;
       reject(error);
     }
   })
 }
 
-var promise = interview(1)
-  .then(() => {
-    return interview(2);
-  })
-  .then(() => {
-    return interview(3)
-  })
-  .then(() => {
-    console.log('smile');
-  })
-  .catch(error => {
-    console.log('cry at ' + error.round + ' round');
-  })
+Promise.all([
+  interview('tencent'),
+  interview('geektime')
+])
+.then(() => {
+  console.log('smile');
+})
+.catch((err) => {
+  console.log('cry for ' + err.name);
+})
+
+// var promise = interview(1)
+//   .then(() => {
+//     return interview(2);
+//   })
+//   .then(() => {
+//     return interview(3)
+//   })
+//   .then(() => {
+//     console.log('smile');
+//   })
+//   .catch(error => {
+//     console.log('cry at ' + error.round + ' round');
+//   })
 
 
 // (function() {
