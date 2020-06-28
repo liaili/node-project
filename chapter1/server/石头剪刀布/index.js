@@ -1,6 +1,3 @@
-const querystring = require('querystring');
-const http = require('http');
-const url = require('url');
 const fs = require('fs');
 const express = require('express');
 
@@ -17,21 +14,21 @@ const app = express();
 // });
 
 app.get('/favicon.ico', function(req, res) {
-  res.writeHead(200);
-  res.end();
+  // res.writeHead(200);
+  // res.end();
+  res.status(200);
   return;
 })
 
 app.get('/game', function(req, res) {
-  const parseurl = querystring.parse(req.url);
-  const query = querystring.parse(parseurl.query);
+  const query = req.query;
   const playerAction = query.action;
 
   const gameResult = game(playerAction);
 
   if (playwon >= 3 || sameCount === 9) {
     res.writeHead(500);
-    res.end('我再也不和你玩了');
+    res.send('我再也不和你玩了')
   }
 
   if (playerAction && playerLastAction === playerAction) {
@@ -43,26 +40,24 @@ app.get('/game', function(req, res) {
 
   if (sameCount >= 3) {
     res.writeHead(400);
-    res.end('你作弊了');
+    res.send('你作弊了')
     sameCount = 9;
   }
 
-  res.writeHead(200);
+  res.status(200)
   if (gameResult === 0) {
-    res.end('平局');
+    res.send('平局')
   } else if (gameResult === 1) {
-    res.end('你赢了');
+    res.send('你赢了')
     playwon++;
   } else {
-    res.end('你输了');
+    res.send('你输了')
   }
 })
 
 app.get('/', function(req, res) {
-  console.log('/')
-  res.writeHead(200);
-  fs.createReadStream(__dirname + '/index.html')
-  .pipe(res);
+  res.status(200)
+  res.send(fs.readFileSync(__dirname + '/index.html', 'utf-8'))
 })
 
 app.listen(8080)
