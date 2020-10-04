@@ -25,13 +25,16 @@ const LESSON_DATA = {
 
 const server = net.createServer((socket) => {
   socket.on('data', function(buffer) {
-    const lessonid = buffer.readInt32BE();
-    // console.log(buffer.toString())
-    // console.log(LESSON_DATA[lessonid])
+    const lessonid = buffer.readInt32BE(2);
+    const seq = buffer.slice(0, 2);
     setTimeout(() => {
+      const buffer = Buffer.concat([
+        seq,
+        Buffer.from(LESSON_DATA[lessonid])
+      ])
       socket.write(
-        Buffer.from(LESSON_DATA[lessonid]
-      ))
+        buffer
+      )
     }, 500)
     
   })
